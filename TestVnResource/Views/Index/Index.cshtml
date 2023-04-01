@@ -1,0 +1,55 @@
+﻿@model dynamic
+
+@{
+    Layout = null;
+    List<TestVnResource.Models.MonHoc> paramMonHoc = ViewBag.paramMonHoc;
+    List<TestVnResource.Models.KhoaHoc> paramKhoaHoc = ViewBag.paramKhoaHoc;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link href="~/wwwroot/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/app.js" language="javascript" type="text/javascript"></script>
+    <title>Home</title>
+    <style type="text/css">
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 15px;
+            margin-bottom: 60px;
+            padding: 10px;
+        }
+
+        .col-sm-8, .col-sm-4 {
+            border: 3px solid;
+            height: 500px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-8">
+            <ol type="1">
+                <h1 id="titleKH" style="font-weight: bold;">Khoa Hoc: </h1>
+                @foreach (TestVnResource.Models.MonHoc item in paramMonHoc)
+                {
+                    <li>@item.TenMonHoc</li>
+                }
+            </ol>
+        </div>
+        <div class="col-sm-4">
+            <h1 style="font-weight: bold;">Khoa Hoc: </h1>
+            @foreach (TestVnResource.Models.KhoaHoc item in paramKhoaHoc)
+            {
+                <button id="@item.ID" onclick="getData(this.id)">@item.TenKhoaHoc</button>
+            }
+        </div>
+
+        
+    </div>
+</body>
+</html>

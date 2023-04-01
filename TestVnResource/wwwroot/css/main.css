@@ -1,0 +1,9 @@
+﻿body {
+    padding: 10px;
+}
+
+.col-sm-8, .col-sm-4 {
+    border: 3px solid;
+    height: 500px;
+    border-radius: 4px;
+}
