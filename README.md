@@ -1,2 +1,2 @@
 # testVnResource
-framework: Entity Framework, Bootstrap, JQuery, Ajax
+framework: Entity Framework, Bootstrap
