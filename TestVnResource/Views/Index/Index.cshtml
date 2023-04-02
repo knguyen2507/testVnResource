@@ -2,8 +2,8 @@
 
 @{
     Layout = null;
-    List<TestVnResource.Models.MonHoc> paramMonHoc = ViewBag.paramMonHoc;
-    List<TestVnResource.Models.KhoaHoc> paramKhoaHoc = ViewBag.paramKhoaHoc;
+    var JsonData = ViewBag.JsonData;
+    /*List<TestVnResource.Models.KhoaHoc> ListKhoaHoc = ViewBag.ListKhoaHoc;*/
 }
 
 <!DOCTYPE html>
@@ -11,9 +11,10 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
     <link href="~/wwwroot/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="~/Scripts/app.js" language="javascript" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-3.6.4.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript"></script>
     <title>Home</title>
     <style type="text/css">
         body {
@@ -33,9 +34,9 @@
 <body>
     <div class="row">
         <div class="col-sm-8">
-            <ol type="1">
-                <h1 id="titleKH" style="font-weight: bold;">Khoa Hoc: </h1>
-                @foreach (TestVnResource.Models.MonHoc item in paramMonHoc)
+            <h1 id="titleKH" style="font-weight: bold;">Khoa Hoc: </h1>
+            <ol type="1" id="output">
+                @foreach (TestVnResource.Models.MonHoc item in Model.MonHoc)
                 {
                     <li>@item.TenMonHoc</li>
                 }
@@ -43,13 +44,40 @@
         </div>
         <div class="col-sm-4">
             <h1 style="font-weight: bold;">Khoa Hoc: </h1>
-            @foreach (TestVnResource.Models.KhoaHoc item in paramKhoaHoc)
+            @foreach (TestVnResource.Models.KhoaHoc item in Model.KhoaHoc)
             {
-                <button id="@item.ID" onclick="getData(this.id)">@item.TenKhoaHoc</button>
+                <button class="khoahoc" id="@item.ID" onclick="getData(this.id, '@item.TenKhoaHoc')">@item.TenKhoaHoc</button>
             }
         </div>
-
-        
     </div>
+    <script type="text/javascript">
+        function getData(id, name) {
+            document.getElementById('titleKH').innerText = 'Khoa Hoc: ' + name;
+        }
+
+        $(document).ready(() => {
+            $('.khoahoc').click(function (e) {
+                var parameter = { "id": this.id };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ShowData", "Index")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(parameter),
+                    dataType: "json",
+                    success: function (response) {
+                        let res = '';
+                        for (i of JSON.parse(response)) {
+                            res = res + '<li>' + i + '</li>';
+                        }
+                        document.getElementById('output').innerHTML = res;
+                    },
+                    error: function (req, status, error) {
+                        alert("Error try again");
+                    }
+                });
+                return false;
+            });
+        })
+    </script>
 </body>
 </html>
